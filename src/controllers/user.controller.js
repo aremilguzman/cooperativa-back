@@ -104,16 +104,18 @@ const login = async (req, res) => {
       {
         email: user.email,
         role_id: user.role_id,
+        username: user.username,
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "120s",
       }
     );
 
     return res.json({ ok: true, msg: {
       token, 
-      role_id: user.role_id
+      role_id: user.role_id,
+      username: user.username,
     } });
 
   } catch (error) {

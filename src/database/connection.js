@@ -10,10 +10,10 @@ export const db = new Pool({
   connectionString,
 });
 
-//Probar conexion a la base de datos
+// Probar conexión a la base de datos
 try {
   await db.query("SELECT NOW()");
-  console.log("Base de datos conectada");
+  console.log(`Base de datos conectada`);
 } catch (error) {
-  console.log(error);
+  console.error("Error al conectar a la base de datos", error);
 }

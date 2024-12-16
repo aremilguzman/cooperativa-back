@@ -13,14 +13,19 @@ export const protection = (req, res, next) => {
 
   //verificar token
   try {
-    const { email, role_id } = jwt.verify(token, process.env.JWT_SECRET);
+    const { email, role_id, username } = jwt.verify(token, process.env.JWT_SECRET);
 
     req.email = email;
     req.role_id = role_id;
+    req.username = username
 
     next();
   } catch (error) {
     console.log(error);
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ error: "Token has expired" });
+    }
     return res.status(400).json({ error: "Invalid Token" });
   }
 };
@@ -31,5 +36,5 @@ export const verifyAdmin = (req, res, next) => {
     return next();
   }
 
-  return res.status(403).json({ error: "No estas autorizado" });
+  return res.status(401).json({ error: "No estas autorizado" });
 };
